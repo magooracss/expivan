@@ -1,0 +1,169 @@
+object DM_General: TDM_General
+  OldCreateOrder = False
+  Height = 535
+  HorizontalOffset = 468
+  VerticalOffset = 93
+  Width = 657
+  object tbClientes: TDbf
+    IndexDefs = <>
+    TableLevel = 4
+    FilterOptions = []
+    left = 70
+    top = 55
+  end
+  object tbCompras: TDbf
+    DateTimeHandling = dtDateTime
+    FilePath = 'E:\Trabajo\Windows\tejerina\info\I-V-A\0103\'
+    IndexDefs = <>
+    TableName = 'COMPRA.DBF'
+    TableLevel = 3
+    FilterOptions = []
+    OnFilterRecord = tbComprasFilterRecord
+    left = 146
+    top = 54
+    object tbComprasCFECHA: TDateField
+      DisplayLabel = 'Fecha'
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'CFECHA'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      DisplayFormat = 'dd/mm/yy'
+    end
+    object tbComprasCCUIT: TLargeintField
+      DisplayLabel = 'Cuit'
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'CCUIT'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object tbComprasCTIPOCOM: TSmallintField
+      DisplayLabel = 'TipoComprobante'
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'CTIPOCOM'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object tbComprasCLETCOM: TStringField
+      DisplayLabel = 'Letra'
+      DisplayWidth = 1
+      FieldKind = fkData
+      FieldName = 'CLETCOM'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 1
+    end
+    object tbComprasCNUMERO: TStringField
+      DisplayLabel = 'Numero'
+      DisplayWidth = 12
+      FieldKind = fkData
+      FieldName = 'CNUMERO'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Size = 12
+    end
+    object tbComprasCPERSE: TFloatField
+      DisplayLabel = 'Percepcion'
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'CPERSE'
+      Index = 5
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Currency = True
+      MaxValue = 0
+      MinValue = 0
+      Precision = 2
+    end
+  end
+  object tbVentas: TDbf
+    DateTimeHandling = dtDateTime
+    FilePath = 'E:\Trabajo\Windows\tejerina\info\I-V-A\0103\'
+    IndexDefs = <>
+    TableName = 'VENTA.DBF'
+    TableLevel = 3
+    FilterOptions = []
+    OnFilterRecord = tbVentasFilterRecord
+    left = 213
+    top = 54
+    object tbVentasVFECHA: TDateField
+      DisplayLabel = 'Fecha'
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'VFECHA'
+      Index = 0
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      DisplayFormat = 'dd/mm/yy'
+    end
+    object tbVentasVCUIT: TLargeintField
+      DisplayLabel = 'Cuit'
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'VCUIT'
+      Index = 1
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object tbVentasVSUCURSAL: TSmallintField
+      DisplayLabel = 'Sucursal'
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'VSUCURSAL'
+      Index = 2
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object tbVentasVNUMERO: TLongintField
+      DisplayLabel = 'Numero'
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'VNUMERO'
+      Index = 3
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+    end
+    object tbVentasVRETENCION: TFloatField
+      DisplayLabel = 'Retencion'
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'VRETENCION'
+      Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Currency = True
+      MaxValue = 0
+      MinValue = 0
+      Precision = 2
+    end
+  end
+end
