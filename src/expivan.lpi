@@ -99,11 +99,11 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="3"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="281"/>
-        <CursorPos X="7" Y="283"/>
+        <TopLine Value="185"/>
+        <CursorPos X="91" Y="203"/>
         <UsageCount Value="35"/>
         <Bookmarks Count="1">
-          <Item0 X="1" Y="201" ID="1"/>
+          <Item0 X="1" Y="205" ID="1"/>
         </Bookmarks>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>

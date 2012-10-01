@@ -198,6 +198,10 @@ var
   mascara: string;
 begin
   mascara:= '.00';
+
+  if elImporte < 0 then
+   longitud:= longitud -1;  //Para evitar que ponga el signo fuera del rango de la mascara
+
   mascara:= AddChar('0', mascara, longitud) ;
 
   Result:= FormatFloat(mascara ,elImporte);
