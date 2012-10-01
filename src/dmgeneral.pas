@@ -14,6 +14,7 @@ type
   TDM_General = class(TDataModule)
     tbClientes: TDbf;
     tbCompras: TDbf;
+    tbComprasCBRUTO: TFloatField;
     tbVentas: TDbf;
     tbComprasCCUIT: TLargeintField;
     tbComprasCFECHA: TDateField;
@@ -21,6 +22,7 @@ type
     tbComprasCNUMERO: TStringField;
     tbComprasCPERSE: TFloatField;
     tbComprasCTIPOCOM: TSmallintField;
+    tbVentasVBRUTO: TFloatField;
     tbVentasVCUIT: TLargeintField;
     tbVentasVFECHA: TDateField;
     tbVentasVNUMERO: TLongintField;
@@ -34,6 +36,8 @@ type
      ,fPerFin
      ,fRetIni
      ,fRetFin: TDate; //Esto es por un bug en el filtro de TDBF;
+     campoValorPer
+     ,campoValorRet: string; //Es el campo donde obtiene el valor al filtrar;
      archivoSalida: TextFile;
 
      function VincularDBFs (ruta: string): boolean;
@@ -55,12 +59,17 @@ type
 
     function CargarClientes (idcliente: integer):boolean;
 
-    procedure ObtenerPercepciones (fIni, fFin: TDate);
-    procedure ObtenerRetenciones (fIni, fFin: TDate);
+    procedure ObtenerPercepcionesIVA (fIni, fFin: TDate);
+    procedure ObtenerRetencionesIVA (fIni, fFin: TDate);
+    procedure ObtenerPercepcionesIIBB (fIni, fFin: TDate);
+    procedure ObtenerRetencionesIIBB (fIni, fFin: TDate);
 
-    procedure ExportarPercepciones (rutaArchivo: string);
-    procedure ExportarRetenciones (rutaArchivo: string);
-  end; 
+    procedure ExportarPercepcionesIVA (rutaArchivo: string);
+    procedure ExportarRetencionesIVA (rutaArchivo: string);
+    procedure ExportarPercepcionesIIBB (rutaArchivo: string);
+    procedure ExportarRetencionesIIBB (rutaArchivo: string);
+
+  end;
 
 var
   DM_General: TDM_General;
@@ -204,16 +213,17 @@ procedure TDM_General.tbComprasFilterRecord(DataSet: TDataSet;
 begin
   Accept:= ((DataSet.FieldByName('cFecha').AsDateTime >= fPerIni)
             and (DataSet.FieldByName('cFecha').AsDateTime <= fPerFin)
-            and (NOT DataSet.FieldByName('cPerse').IsNull)
-            and (DataSet.FieldByName('cPerse').AsFloat <> 0)
+            and (NOT DataSet.FieldByName(campoValorPer).IsNull)
+            and (DataSet.FieldByName(campoValorPer).AsFloat <> 0)
            );
 end;
 
-procedure TDM_General.ObtenerPercepciones(fIni, fFin: TDate);
+procedure TDM_General.ObtenerPercepcionesIVA(fIni, fFin: TDate);
 begin
   with tbCompras do
   begin
     DisableControls;
+    campoValorPer:= 'cPerse' ;
     if Active then close;
     FilePath:= rutaCliente;
     TableName:= fCOMPRAS;
@@ -226,7 +236,7 @@ begin
   end;
 end;
 
-procedure TDM_General.ExportarPercepciones(rutaArchivo: string);
+procedure TDM_General.ExportarPercepcionesIVA(rutaArchivo: string);
 var
   linea: string;
 begin
@@ -249,7 +259,49 @@ begin
   end;
 end;
 
+procedure TDM_General.ObtenerPercepcionesIIBB(fIni, fFin: TDate);
+begin
+  with tbCompras do
+  begin
+    DisableControls;
+    campoValorPer:= 'cBruto' ;
+    if Active then close;
+    FilePath:= rutaCliente;
+    TableName:= fCOMPRAS;
+    fPerIni:= fechaY2K (fIni);
+    fPerFin:= fechaY2K (fFin);
+    Open;
 
+    Filtered:= true;
+    EnableControls;
+  end;
+
+end;
+
+
+
+procedure TDM_General.ExportarPercepcionesIIBB(rutaArchivo: string);
+var
+  linea: string;
+begin
+  PrepararArchivo(rutaArchivo);
+  with tbCompras do
+  begin
+    First;
+    while Not EOF do
+    begin
+      linea:= FormatearCUIT(FieldByName('cCUIT').asString);
+      linea:= linea + FormatearFecha (FieldByName('cFecha').asDateTime);
+      linea:= linea + 'F';
+      linea:= linea + FieldByName('cLetCom').asString;
+      linea:= linea + FormatearSucEmision (FieldByName('cNumero').AsString);
+      linea:= linea + FormatearImporte (FieldByName('cBruto').asFloat,11);
+      EscribirLinea(linea);
+      Next;
+    end;
+    CerrarArchivo;
+  end;
+end;
 (*******************************************************************************
 ****  RETENCIONES
 *******************************************************************************)
@@ -259,17 +311,36 @@ procedure TDM_General.tbVentasFilterRecord(DataSet: TDataSet;
 begin
   Accept:= ((DataSet.FieldByName('vFecha').AsDateTime >= fRetIni)
             and (DataSet.FieldByName('vFecha').AsDateTime <= fRetFin)
-            and (NOT DataSet.FieldByName('vRetencion').IsNull)
-            and (DataSet.FieldByName('vRetencion').AsFloat <> 0)
+            and (NOT DataSet.FieldByName(campoValorRet).IsNull)
+            and (DataSet.FieldByName(campoValorRet).AsFloat <> 0)
            );
 end;
 
 
 
-procedure TDM_General.ObtenerRetenciones(fIni, fFin: TDate);
+procedure TDM_General.ObtenerRetencionesIVA(fIni, fFin: TDate);
 begin
   with tbVentas do
   begin
+    campoValorRet:= 'vRetencion';
+    DisableControls;
+    if Active then close;
+    FilePath:= rutaCliente;
+    TableName:= fVENTAS;
+    fRetIni:= fechaY2K (fIni);
+    fRetFin:= fechaY2K (fFin);
+    Open;
+
+    Filtered:= true;
+    EnableControls;
+  end;
+end;
+
+procedure TDM_General.ObtenerRetencionesIIBB(fIni, fFin: TDate);
+begin
+  with tbVentas do
+  begin
+    campoValorRet:= 'vBruto';
     DisableControls;
     if Active then close;
     FilePath:= rutaCliente;
@@ -284,8 +355,7 @@ begin
 end;
 
 
-
-procedure TDM_General.ExportarRetenciones(rutaArchivo: string);
+procedure TDM_General.ExportarRetencionesIVA(rutaArchivo: string);
 var
   linea: string;
 begin
@@ -300,6 +370,30 @@ begin
       linea:= linea + Copy ('0000'+ FieldByName('vSucursal').AsString,Length('0000'+ FieldByName('vSucursal').AsString)-3,4);
       linea:= linea + Copy ('00000000'+ FieldByName('vNumero').AsString,Length('00000000'+ FieldByName('vNumero').AsString)-7,8);
       linea:= linea + FormatearImporte (FieldByName('vRetencion').asFloat, 10);
+      EscribirLinea(linea);
+      Next;
+    end;
+    CerrarArchivo;
+  end;
+end;
+
+
+
+procedure TDM_General.ExportarRetencionesIIBB(rutaArchivo: string);
+var
+  linea: string;
+begin
+  PrepararArchivo(rutaArchivo);
+  with tbVentas do
+  begin
+    First;
+    while Not EOF do
+    begin
+      linea:= FormatearCUIT(FieldByName('vCUIT').asString);
+      linea:= linea + FormatearFecha (FieldByName('vFecha').asDateTime);
+      linea:= linea + Copy ('0000'+ FieldByName('vSucursal').AsString,Length('0000'+ FieldByName('vSucursal').AsString)-3,4);
+      linea:= linea + Copy ('00000000'+ FieldByName('vNumero').AsString,Length('00000000'+ FieldByName('vNumero').AsString)-7,8);
+      linea:= linea + FormatearImporte (FieldByName('vBruto').asFloat, 10);
       EscribirLinea(linea);
       Next;
     end;

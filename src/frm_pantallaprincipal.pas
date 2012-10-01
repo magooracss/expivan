@@ -17,6 +17,8 @@ type
     btnExportar: TBitBtn;
     cbClientes: TComboBox;
     DBGrid2: TDBGrid;
+    DBGrid3: TDBGrid;
+    DBGrid4: TDBGrid;
     ds_compras: TDatasource;
     DBGrid1: TDBGrid;
     ds_ventas: TDatasource;
@@ -29,8 +31,10 @@ type
     Panel1: TPanel;
     SD: TSaveDialog;
     st: TStatusBar;
-    tabRetenciones: TTabSheet;
-    tabPercepciones: TTabSheet;
+    tabIVARetenciones: TTabSheet;
+    tabIVAPercepciones: TTabSheet;
+    tabIIBBRetenciones: TTabSheet;
+    tabIIBBPercepciones: TTabSheet;
     procedure btnExportarClick(Sender: TObject);
     procedure btnObtenerClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -57,8 +61,10 @@ begin
   if DM_General.CargarClientes (Integer(cbClientes.Items.Objects[cbClientes.ItemIndex])) then
   begin
     case PCOperaciones.ActivePageIndex of
-      0: DM_General.ObtenerRetenciones (edFIni.Date, edFFin.Date); //Retenciones
-      1: DM_General.ObtenerPercepciones (edFIni.Date, edFFin.Date); //Percepciones
+      0: DM_General.ObtenerRetencionesIVA (edFIni.Date, edFFin.Date); //RetencionesIVA
+      1: DM_General.ObtenerPercepcionesIVA (edFIni.Date, edFFin.Date); //PercepcionesIVA
+      2: DM_General.ObtenerRetencionesIIBB (edFIni.Date, edFFin.Date); //RetencionesIIBB
+      3: DM_General.ObtenerPercepcionesIIBB (edFIni.Date, edFFin.Date); //PercepcionesIIBB
     end;
   end;
 end;
@@ -68,8 +74,10 @@ begin
   if SD.Execute then
   begin
     case PCOperaciones.ActivePageIndex of
-      0: DM_General.ExportarRetenciones (SD.FileName); //Retenciones
-      1: DM_General.ExportarPercepciones (SD.FileName); //Percepciones
+      0: DM_General.ExportarRetencionesIVA (SD.FileName); //RetencionesIVA
+      1: DM_General.ExportarPercepcionesIVA (SD.FileName); //PercepcionesIVA
+      2: DM_General.ExportarRetencionesIIBB (SD.FileName); //RetencionesIIBB
+      3: DM_General.ExportarPercepcionesIIBB (SD.FileName); //PercepcionesIIBB
     end;
   end;
 end;
@@ -83,6 +91,7 @@ procedure TfrmPantallaPrincipal.Inicializar;
 begin
   edFIni.Date:= StartOfTheMonth(Now);
   edFFin.Date:= EndOfTheMonth(Now);
+  PCOperaciones.ActivePage:= tabIIBBPercepciones;
   DM_General.cargarCombo (cbClientes);
 end;
 

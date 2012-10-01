@@ -1,11 +1,11 @@
 object frmPantallaPrincipal: TfrmPantallaPrincipal
-  Left = 484
+  Left = 422
   Height = 493
   Top = 160
-  Width = 626
+  Width = 845
   Caption = 'Exportador programa I-V-A'
   ClientHeight = 493
-  ClientWidth = 626
+  ClientWidth = 845
   Font.CharSet = ANSI_CHARSET
   Font.Color = clBlack
   Font.Height = -13
@@ -19,10 +19,10 @@ object frmPantallaPrincipal: TfrmPantallaPrincipal
     Left = 0
     Height = 122
     Top = 0
-    Width = 626
+    Width = 845
     Align = alTop
     ClientHeight = 122
-    ClientWidth = 626
+    ClientWidth = 845
     TabOrder = 0
     object edFIni: TDateEdit
       Left = 18
@@ -236,7 +236,7 @@ object frmPantallaPrincipal: TfrmPantallaPrincipal
       Left = 18
       Height = 24
       Top = 30
-      Width = 589
+      Width = 808
       Anchors = [akTop, akLeft, akRight]
       ItemHeight = 16
       Sorted = True
@@ -256,13 +256,13 @@ object frmPantallaPrincipal: TfrmPantallaPrincipal
     Left = 0
     Height = 351
     Top = 122
-    Width = 626
-    ActivePage = tabPercepciones
+    Width = 845
+    ActivePage = tabIIBBPercepciones
     Align = alClient
-    TabIndex = 1
+    TabIndex = 3
     TabOrder = 1
-    object tabRetenciones: TTabSheet
-      Caption = 'Retenciones'
+    object tabIVARetenciones: TTabSheet
+      Caption = 'Retenciones IVA'
       ClientHeight = 322
       ClientWidth = 618
       object DBGrid2: TDBGrid
@@ -287,8 +287,8 @@ object frmPantallaPrincipal: TfrmPantallaPrincipal
         TitleFont.Quality = fqDraft
       end
     end
-    object tabPercepciones: TTabSheet
-      Caption = 'Percepciones'
+    object tabIVAPercepciones: TTabSheet
+      Caption = 'Percepciones IVA'
       ClientHeight = 322
       ClientWidth = 618
       object DBGrid1: TDBGrid
@@ -313,12 +313,64 @@ object frmPantallaPrincipal: TfrmPantallaPrincipal
         TitleFont.Quality = fqDraft
       end
     end
+    object tabIIBBRetenciones: TTabSheet
+      Caption = 'Retenciones IIBB'
+      ClientHeight = 322
+      ClientWidth = 618
+      object DBGrid3: TDBGrid
+        Left = 0
+        Height = 322
+        Top = 0
+        Width = 618
+        Align = alClient
+        AutoFillColumns = True
+        Color = clWindow
+        Columns = <>
+        DataSource = ds_ventas
+        FixedCols = 0
+        Options = [dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+        Scrollbars = ssAutoVertical
+        TabOrder = 0
+        TitleFont.CharSet = ANSI_CHARSET
+        TitleFont.Color = clBlack
+        TitleFont.Height = -13
+        TitleFont.Name = 'Arial'
+        TitleFont.Pitch = fpVariable
+        TitleFont.Quality = fqDraft
+      end
+    end
+    object tabIIBBPercepciones: TTabSheet
+      Caption = 'Percepciones IIBB'
+      ClientHeight = 322
+      ClientWidth = 837
+      object DBGrid4: TDBGrid
+        Left = 0
+        Height = 322
+        Top = 0
+        Width = 837
+        Align = alClient
+        AutoFillColumns = True
+        Color = clWindow
+        Columns = <>
+        DataSource = ds_compras
+        FixedCols = 0
+        Options = [dgTitles, dgColumnResize, dgColumnMove, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgAlwaysShowSelection, dgConfirmDelete, dgCancelOnExit]
+        Scrollbars = ssAutoVertical
+        TabOrder = 0
+        TitleFont.CharSet = ANSI_CHARSET
+        TitleFont.Color = clBlack
+        TitleFont.Height = -13
+        TitleFont.Name = 'Arial'
+        TitleFont.Pitch = fpVariable
+        TitleFont.Quality = fqDraft
+      end
+    end
   end
   object st: TStatusBar
     Left = 0
     Height = 20
     Top = 473
-    Width = 626
+    Width = 845
     Panels = <    
       item
         Alignment = taCenter
@@ -329,8 +381,8 @@ object frmPantallaPrincipal: TfrmPantallaPrincipal
   end
   object ds_compras: TDatasource
     DataSet = DM_General.tbCompras
-    left = 311
-    top = 315
+    left = 42
+    top = 343
   end
   object SD: TSaveDialog
     DefaultExt = '.dat'
@@ -340,7 +392,7 @@ object frmPantallaPrincipal: TfrmPantallaPrincipal
   end
   object ds_ventas: TDatasource
     DataSet = DM_General.tbVentas
-    left = 339
+    left = 139
     top = 343
   end
 end

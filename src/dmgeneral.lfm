@@ -13,7 +13,7 @@ object DM_General: TDM_General
   end
   object tbCompras: TDbf
     DateTimeHandling = dtDateTime
-    FilePath = 'E:\Trabajo\Windows\tejerina\info\I-V-A\0103\'
+    FilePath = 'E:\Trabajo\Windows\expivan\info\I-V-A\0103\'
     IndexDefs = <>
     TableName = 'COMPRA.DBF'
     TableLevel = 3
@@ -80,7 +80,7 @@ object DM_General: TDM_General
       Size = 12
     end
     object tbComprasCPERSE: TFloatField
-      DisplayLabel = 'Percepcion'
+      DisplayLabel = 'PercepcionIVA'
       DisplayWidth = 10
       FieldKind = fkData
       FieldName = 'CPERSE'
@@ -94,10 +94,25 @@ object DM_General: TDM_General
       MinValue = 0
       Precision = 2
     end
+    object tbComprasCBRUTO: TFloatField
+      DisplayLabel = 'PercepcionIIBB'
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'CBRUTO'
+      Index = 6
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Currency = True
+      MaxValue = 0
+      MinValue = 0
+      Precision = 2
+    end
   end
   object tbVentas: TDbf
     DateTimeHandling = dtDateTime
-    FilePath = 'E:\Trabajo\Windows\tejerina\info\I-V-A\0103\'
+    FilePath = 'E:\Trabajo\Windows\expivan\info\I-V-A\0103\'
     IndexDefs = <>
     TableName = 'VENTA.DBF'
     TableLevel = 3
@@ -151,11 +166,26 @@ object DM_General: TDM_General
       Required = False
     end
     object tbVentasVRETENCION: TFloatField
-      DisplayLabel = 'Retencion'
+      DisplayLabel = 'Retencion IVA'
       DisplayWidth = 10
       FieldKind = fkData
       FieldName = 'VRETENCION'
       Index = 4
+      LookupCache = False
+      ProviderFlags = [pfInUpdate, pfInWhere]
+      ReadOnly = False
+      Required = False
+      Currency = True
+      MaxValue = 0
+      MinValue = 0
+      Precision = 2
+    end
+    object tbVentasVBRUTO: TFloatField
+      DisplayLabel = 'RetencionIIBB'
+      DisplayWidth = 10
+      FieldKind = fkData
+      FieldName = 'VBRUTO'
+      Index = 5
       LookupCache = False
       ProviderFlags = [pfInUpdate, pfInWhere]
       ReadOnly = False
