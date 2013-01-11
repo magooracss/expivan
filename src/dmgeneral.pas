@@ -7,6 +7,17 @@ interface
 uses
   Classes, SysUtils, dbf, FileUtil, stdCtrls, db;
 
+const
+  fVENTAS = 'VENTA.DBF';
+  fCOMPRAS = 'COMPRA.DBF';
+  elIni = 'config.cfg';
+  SEC_APP = 'APLICACION';
+  APP_RUTA = 'DATOS';
+  APP_CLIENTES = 'CLIENTES_BD';
+  APP_CLIENTES_RUTA = 'CLIENTES_RUTA';
+  SEC_FRM ='FORMULARIOS';
+  CB_CODREGPERCP = 'IDX_COD_REG_PERCEP';
+
 type
 
   { TDM_General }
@@ -52,6 +63,7 @@ type
      function FormatearFecha (laFecha: TDate): String;
      function FormatearSucEmision (laCadena: String): String;
      function FormatearImporte (elImporte: Double; longitud: byte): String;
+     function FormatearCodigoRegimen (codigoRegimen: integer): string;
 
   public
     procedure CargarCombo (var elCombo: TComboBox);
@@ -64,7 +76,7 @@ type
     procedure ObtenerPercepcionesIIBB (fIni, fFin: TDate);
     procedure ObtenerRetencionesIIBB (fIni, fFin: TDate);
 
-    procedure ExportarPercepcionesIVA (rutaArchivo: string);
+    procedure ExportarPercepcionesIVA (rutaArchivo: string; codigoRegimen: integer);
     procedure ExportarRetencionesIVA (rutaArchivo: string);
     procedure ExportarPercepcionesIIBB (rutaArchivo: string);
     procedure ExportarRetencionesIIBB (rutaArchivo: string);
@@ -83,14 +95,7 @@ uses
   ,dialogs
   ;
 
-const
-  fVENTAS = 'VENTA.DBF';
-  fCOMPRAS = 'COMPRA.DBF';
-  elIni = 'config.cfg';
-  SEC_APP = 'APLICACION';
-  APP_RUTA = 'DATOS';
-  APP_CLIENTES = 'CLIENTES_BD';
-  APP_CLIENTES_RUTA = 'CLIENTES_RUTA';
+
 
 { TDM_General }
 
@@ -186,11 +191,16 @@ begin
 end;
 
 function TDM_General.FormatearSucEmision(laCadena: String): String;
+var
+  parte1, parte2: string;
 begin
-  if Length(laCadena) = 12 then
-    Result:= laCadena
-  else
-    Result:= Copy('000000000000'+laCadena, Length('000000000000'+laCadena)-11,12 );
+  if Length(laCadena) < 12 then
+      laCadena:= Copy ('000000000000'+ laCadena,Length('000000000000'+ laCadena)-11,12);
+
+  parte1:= Copy (laCadena,1,4);
+  parte2:= Copy (laCadena,5,12);
+
+  Result:=  parte1 + parte2;
 end;
 
 function TDM_General.FormatearImporte(elImporte: Double; longitud: byte): String;
@@ -205,6 +215,17 @@ begin
   mascara:= AddChar('0', mascara, longitud) ;
 
   Result:= FormatFloat(mascara ,elImporte);
+end;
+
+function TDM_General.FormatearCodigoRegimen(codigoRegimen: integer): string;
+var
+  codigoRegStr: string;
+begin
+  codigoRegstr:= IntToStr(codigoRegimen);
+  if Length(codigoRegStr) = 3 then
+    Result:= codigoRegStr
+  else
+    Result:= Copy('000'+codigoRegStr, Length('000'+codigoRegStr)-2,3 );
 end;
 
 
@@ -240,7 +261,7 @@ begin
   end;
 end;
 
-procedure TDM_General.ExportarPercepcionesIVA(rutaArchivo: string);
+procedure TDM_General.ExportarPercepcionesIVA(rutaArchivo: string; codigoRegimen: integer);
 var
   linea: string;
 begin
@@ -250,12 +271,11 @@ begin
     First;
     while Not EOF do
     begin
-      linea:= FormatearCUIT(FieldByName('cCUIT').asString);
+      linea:= FormatearCodigoRegimen (codigoRegimen);
+      linea:= linea + FormatearCUIT(FieldByName('cCUIT').asString);
       linea:= linea + FormatearFecha (FieldByName('cFecha').asDateTime);
-      linea:= linea + 'F';
-      linea:= linea + FieldByName('cLetCom').asString;
-      linea:= linea + FormatearSucEmision (FieldByName('cNumero').AsString);
-      linea:= linea + FormatearImporte (FieldByName('cPerse').asFloat,11);
+      linea:= linea + '0000' + FormatearSucEmision (FieldByName('cNumero').AsString);
+      linea:= linea + FormatearImporte (FieldByName('cPerse').asFloat,16);
       EscribirLinea(linea);
       Next;
     end;

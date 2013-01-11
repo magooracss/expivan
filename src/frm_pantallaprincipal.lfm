@@ -14,7 +14,7 @@ object frmPantallaPrincipal: TfrmPantallaPrincipal
   Font.Quality = fqDraft
   OnShow = FormShow
   Position = poScreenCenter
-  LCLVersion = '0.9.30'
+  LCLVersion = '1.0.4.0'
   object Panel1: TPanel
     Left = 0
     Height = 122
@@ -257,9 +257,9 @@ object frmPantallaPrincipal: TfrmPantallaPrincipal
     Height = 351
     Top = 122
     Width = 845
-    ActivePage = tabIIBBPercepciones
+    ActivePage = tabIVAPercepciones
     Align = alClient
-    TabIndex = 3
+    TabIndex = 1
     TabOrder = 1
     object tabIVARetenciones: TTabSheet
       Caption = 'Retenciones IVA'
@@ -290,12 +290,12 @@ object frmPantallaPrincipal: TfrmPantallaPrincipal
     object tabIVAPercepciones: TTabSheet
       Caption = 'Percepciones IVA'
       ClientHeight = 322
-      ClientWidth = 618
+      ClientWidth = 837
       object DBGrid1: TDBGrid
         Left = 0
-        Height = 322
-        Top = 0
-        Width = 618
+        Height = 272
+        Top = 50
+        Width = 837
         Align = alClient
         AutoFillColumns = True
         Color = clWindow
@@ -311,6 +311,208 @@ object frmPantallaPrincipal: TfrmPantallaPrincipal
         TitleFont.Name = 'Arial'
         TitleFont.Pitch = fpVariable
         TitleFont.Quality = fqDraft
+      end
+      object Panel2: TPanel
+        Left = 0
+        Height = 50
+        Top = 0
+        Width = 837
+        Align = alTop
+        ClientHeight = 50
+        ClientWidth = 837
+        TabOrder = 1
+        object cbRegimenPercepcion: TComboBox
+          Left = 20
+          Height = 24
+          Top = 20
+          Width = 792
+          Anchors = [akLeft, akRight, akBottom]
+          ItemHeight = 16
+          Items.Strings = (
+            '<115>  Pago a cuenta por compras de marcadores químicos'
+            '<148>  COMFER'
+            '<149>  Impuesto sobre débitos y créditos bancarios'
+            '<208>  Ingresos para la producción, distribución, etc. de programas, películas, etc.'
+            '<209>  Ingresos por comercialización de espacios publicitarios'
+            '<210>  Servicios de transporte - distancia mayor a 100 km-'
+            '<211>  Servicios de asistencia sanitaria médica y paramédica -cooperativas, mutuales y prepagas-'
+            '<212>  Otras locaciones de obras y locaciones o prestaciones de servicios'
+            '<214>  Compraventa de cosas muebles y locaciones'
+            '<215>  Locaciones de animales vivos, carne y despojos -Bovinos-; frutas, legumbres y hortalizas'
+            '<216>  Labores culturales; siembra y/o plantación, etc. Vinculados a la obtención de animales bovinos, frutas, legumbres y hortalizas.'
+            '<217>  Trabajos sobre inmueble ajeno'
+            '<218>  Intereses y comisiones de préstamos otorgados por entidades financieras'
+            '<219>  Ingresos de la actividad de radiodifusión -empresas de servicios complementarios Ley 22,285-'
+            '<223>  Locaciones y Prestaciones del Servicio Art. 8º Inc. B.'
+            '<225>  Locaciones Vinculadas a la obtencion de Carnes y Despojos Comestibles de Bovinos y Frutas - Art. 8 Inc. "C"'
+            '<225>  Locaciones Vinculadas a la obtencion de Carnes y Despojos Comestibles de Bovinos y Frutas - Art. 8 Inc. "C"'
+            '<226>  Trabajo sobre inmuebles ajenos Art. 8º inciso D'
+            '<228>  Locaciones vinculada a la obtención de carnes y despojos comestibles de Bovinos y Frutas - Art. 8 c)'
+            '<229>  Obras, Locaciones y Prestaciones de Servicios vinculados a la obtención Bovinos, frutas, legumbres y Hortalizas - Art. 8 Inc c)'
+            '<230>  Locación y Prestación de Servicios - Art. 8 Inc b)'
+            '<231>  Locaciones vinculada a la obtención de carnes y despojos comestibles de Bovinos y Frutas - Art. 8 c)'
+            '<232>  Trabajo sobre Inmuebles ajenos - Art. 8 Inc c)'
+            '<233>  Régimen de Percepción - Operaciones de compraventade cheques de pago diferido y certificados de aval'
+            '<234>  Régimen de Retención - Operaciones de compraventa de cheques de pago diferido y certificados de aval'
+            '<241>  Venta de Cosas Muebles y Locaciones'
+            '<242>  Locación y Prestación de Servicios - Art. 1º Inc. 2'
+            '<243>  Locaciones Vinculadas a la obtención de carnes y despojos comestibles de bovinos y frutas Art. 8º Inc B'
+            '<244>  Obras, locaciones y prestaciones de servicios no comprendidos en el articulo 8º inc. B - C y E'
+            '<245>  Obras, Locaciones y Prestaciones de servicio vinculados a la obtención de frutas legumbres y hortalizas Art. 8º Inc B'
+            '<246>  Trab sobre inm ajenos y Ob. sobre Inm propios - Art. 1º Inc. 3'
+            '<247>  Trabajos sobre inmuebles ajenos, Articulo 8º inc E'
+            '<248>  Compra Venta de Cosas Muebles y Locaciones Art. 8º Inc. A.'
+            '<250>  Prestaciones del Exterior'
+            '<252>  Compraventa de lana sucia - art.2°, inc. a) – Adquirentes'
+            '<253>  Compraventa de lana sucia - art.2°, inc. b) – Intermediarios'
+            '<255>  Otros pagos a cuenta'
+            '<256>  Operaciones de compraventa de cereales y oleaginosas.'
+            '<257>  (Rég.257) Compraventa de Leche Fluida sin Procesar - art.2°, inc.b). Intermediarios'
+            '<258>  Compraventa de Leche Fluida sin Procesar - art.2°, inc.a). Adquirentes'
+            '<259>  (Rég.259) Compraventa de Leche Fluida sin Procesar - art.2°, inc.b). Intermediarios'
+            '<260>  Compraventa de Miel a Granel. Adquirentes'
+            '<261>  Compraventa de Miel a Granel. Intermediarios'
+            '<263>  Sistema de Tarjetas de Crédito y/o Compra Art. 4 inc. A punto 2'
+            '<264>  Sistema de Tarjetas de Crédito y/o Compra Art. 4 inc. A punto 1'
+            '<265>  Importación de Cosas Muebles, Frutas, Legumbres y Hortalizas'
+            '<266>  Importación de Cosas Muebles que reviste el carácter de Bien de Uso'
+            '<267>  Importación de Cosas Muebles que no reviste el carácter de Bien de Uso'
+            '<268>  Sistema de Tarjetas de Crédito y/o Compra Art. 4 inc  b'
+            '<270>  Operaciones con Sujetos No Categorizados'
+            '<270>  Operaciones con Sujetos No Categorizados'
+            '<272>  Operaciones de compraventa de ganado, matanza y/o faenamiento.'
+            '<280>  Pago de Honorarios Profesionales'
+            '<299>  Emp Prov. de Gas, Electricidad o Telecomunicaciones - Art. 3º Inc 1'
+            '<300>  Emp Prov. de Agua Corriente, Serv. Cloacales o Desagües - Art. 3º Inc. 2'
+            '<395>  Combustibles líquidos'
+            '<450>  Régimen especial de ingreso. Exportadores.'
+            '<493>  Venta de cosas Muebles, Locaciones y Prestaciones Gravadas'
+            '<493>  Venta de cosas Muebles, Locaciones y Prestaciones Gravadas'
+            '<494>  Venta de granos, cereales y oleaginosas destinadas a la siembra, agroquímicos y fertilizantes.'
+            '<495>  Venta de semillas, agroquímicos y fertilizantes y determinadas obras , locaciones y prestaciones.'
+            '<499>  Factura M - IVA - Emisión de comprobantes con discriminación del gravamen'
+            '<515>  Reparación, reacondicionamiento y arreglo de Bienes siniestrados'
+            '<523>  Cons. de Propietario - Locación de Obra, Locaciones y Prestaciones de Servicios'
+            '<56>  Actores'
+            '<574>  Matanza y/o faenamiento de ganado bovino de terceros - Art. 6 Pto. 1.'
+            '<582>  Venta de carne proveniente de la faena de hacienda bovina propia - Art. 6 Pto. 2.'
+            '<590>  Venta de carne bovina por matarife y consignatario directo.'
+            '<604>  Venta directa de carne por sujetos pasibles de la Percepción del Art. 6, Pto.2 - Art. 8.'
+            '<612>  Compra de animales con destino directo a faena - Art. 10 Pto. 1'
+            '<620>  Compra de animales no destinados a faena - Art. 10 Pto. 2.'
+            '<622>  Consignatario de hacienda (art.19).'
+            '<623>  Matanza y/o faenamiento de ganado porcino de terceros - Art. 5 Pto. 1.'
+            '<624>  Venta de carne proveniente de la faena de hacienda porcina propia - Art. 5 Pto. 2.'
+            '<625>  Venta de carne propia por matarife.'
+            '<626>  Compra de animales porcinos con destino directo a faena - Art. 10 Pto. 1.'
+            '<627>  Restaurant, Bares y Similares'
+            '<628>  Hoteles, Hosterías, Pensiones, Alojamientos y Similares'
+            '<629>  Comisiones Cobaradas por Bcos con Convenio de Recaudación con DGI'
+            '<630>  Ingreso único establecido por el art.3.'
+            '<631>  Intermediario  (art.20 pto.1).'
+            '<632>  Venta de Carne Proveniente de Faenamiento efectuado entre Resp. Insc. - Matanza y Faenamiento'
+            '<633>  Venta de Carne Proveniente de Faenamiento efectuado entre Resp. Insc. - Venta de Carne'
+            '<634>  Venta de Carne Proveniente de Faenamiento efectuado entre Resp. Insc. - Usuarios del Srev de Faenamiento'
+            '<635>  Venta de Carne Proveniente de Faenamiento efectuado entre Resp. Insc. - Importadores'
+            '<636>  Venta de Carne Proveniente de Faenamiento efectuado entre Resp. Insc. - Distribuidores y/o Mayoristas'
+            '<637>  Venta de Carne Proveniente de Faenamiento efectuado entre Resp. Insc. - Intermediarios'
+            '<638>  Pollos Parrilleros - Adquisición'
+            '<639>  Pollos Parrilleros - Servicio de recría'
+            '<641>  Consignatario de hacienda (art.20).'
+            '<642>  Matanza y/o faenamiento de ganado porcino de terceros - Art. 6 Pto. 1.'
+            '<643>  Venta de carne proveniente de la faena de ganado porcino - Art. 6 Pto. 2.'
+            '<644>  Venta de carne porcina por matarife - Art. 8.'
+            '<645>  Compra de animales porcinos con destino directo a faena - Art. 10.'
+            '<646>  Elaboración y venta de cal y cemento. (art.3).'
+            '<647>  Venta de Cemento Portland'
+            '<648>  Ganado Ovino, Caprino y Equino - Faenamiento de Animales de terceros operaciones de redestino de Exportación a consumo y primera venta de Exportador a exportador. Vta de subproductos de faena'
+            '<649>  Régimen de pago a cuenta.ingreso  establecido por art. 12'
+            '<650>  Faenamiento de Animales de Terceros'
+            '<651>  Ganado Ovino, Caprino y Equino - Compraventa'
+            '<652>  Venta subproducto faena ganado porcino.'
+            '<653>  Venta subproducto faena ganado bovino.'
+            '<654>  Operaciones de elaboración y venta de harina (art.2).'
+            '<655>  Harinas y Productos derivados del Trigo - Prestación del Servicio de elaboración de todo tipo de harinas - Ptos tipificados en Art. 670 al  673 del Código Alimentario Argentino'
+            '<656>  Harinas y Productos derivados del Trigo - Venta de harinas y demás productos derivados del trigo - Ptos tipificados en Art. 670 al  673 del Código Alimentario Argentino'
+            '<657>  Harinas y Productos derivados del Trigo - Prestación del Servicio de elaboración de todo tipo de harinas - Ptos tipificados en Art. 661, 662, 664 al  667 del Código Alimentario Argentino'
+            '<658>  Consignatarios de hacienda (art.14 inc.b).'
+            '<659>  Establecimientos faenadores (art.14,inc.a).'
+            '<660>  Compra Venta de Caña de Azúcar y Algodón en Bruto. Art. 2º inc. A - Adquirentes.'
+            '<661>  Compra Venta de Caña de Azúcar y Algodón en Bruto. Art. 2º inc. B - Intermediarios.'
+            '<663>  Venta de Cueros Art. 11 Inc c) establecimientos faenadores'
+            '<664>  Usuarios del servicio de faena.art. 14 inc c'
+            '<665>  Compra de Animales - usuarios del servicio de faenadores'
+            '<666>  Venta de Carnes Art. 11 Inc a) usuarios del servicio de faena'
+            '<667>  Venta de Subproductos Art. 11 Inc b) usuarios del servicio de faena'
+            '<668>  Venta de Cueros Art. 11 Inc c) usuarios del servicio de faenadores'
+            '<669>  Supermercados (art.14 inc.d).'
+            '<670>  Compra de Animales - establecimientos faenadores'
+            '<671>  Venta de Carnes Art. 11 Inc a) establecimientos faenadores'
+            '<672>  Compra de Subproductos Art. 11 Inc b) establecimientos faenadores'
+            '<672>  Venta de Subproductos Art. 11 Inc b) establecimientos faenadores'
+            '<673>  Consignatarios de carne (art.14 inc.e).'
+            '<674>  Establecimientos faenadores. Venta de subproductos (art.9 inc.a).'
+            '<675>  Consignatarios de hacienda'
+            '<676>  Usuarios del servicio de faena.art. 9 inc c'
+            '<677>  Compra de Porcinos - establecimientos faenadores'
+            '<678>  (Rég.678) Compra Venta de Caña de Azúcar y Algodón en Bruto. Art. 2º inc. B - Intermediarios.'
+            '<679>  Compra de Porcinos - usuarios del servicio de faena'
+            '<680>  Compra Venta de Granos y Legumbres Secas - No Incluidos en el Registro Fiscal Art. 4º inc. C - Adquirentes'
+            '<681>  Compra Venta de Granos y Legumbres no Incluidos en el Registro Fiscal Art. 4º inc. B - Intermediarios'
+            '<682>  Compra Venta de Granos y Legumbres Secas - Incluidos en el Registro Fiscal Art. 4º inc. A - Adquirentes'
+            '<683>  Compra Venta de Granos y legumbres secas - Art. 4º inc. A pto 1 - Intermediarios'
+            '<684>  Venta de Cemento de Albañilería'
+            '<685>  Venta de Cal'
+            '<686>  Compraventa de animales de la especie equina - art. 2º, inc. a) – Establecimientos faenadores.'
+            '<686>  Compraventa de animales de la especie equina - art. 2º, inc. a) – Establecimientos faenadores.'
+            '<687>  Compraventa de animales de la especie equina - art. 2º, inc. b) – Intermediarios'
+            '<687>  Compraventa de animales de la especie equina - art. 2º, inc. b) – Intermediarios'
+            '<688>  Compraventa de animales de la especie equina - art. 2º, inc. c) – Consignatorios directos.'
+            '<688>  Compraventa de animales de la especie equina - art. 2º, inc. c) – Consignatorios directos.'
+            '<689>  Vales de Almuerzo'
+            '<690>  Vales de Alimentos'
+            '<692>  Venta de Carnes Art. 11 Inc a) consignatarios de carne'
+            '<693>  Venta de Subproductos Art. 11 Inc b) consignatarios de carne'
+            '<694>  Venta de Cueros Art. 11 Inc c) consignatarios de carne'
+            '<695>  Compra de Carnes supermercados'
+            '<696>  Otras figuras encuadradas dentro  de la Resolución General 3125. Compra de carne faenada.'
+            '<697>  Productores, Criadores y/o Invernaderos con I.V.A. Anual'
+            '<697>  Productores, Criadores y/o Invernaderos con I.V.A. Anual'
+            '<698>  Compra de Subproductos supermercados'
+            '<699>  Otras figuras encuadradas dentro  de la Resolución General 3125. Adquisición de subproducto'
+            '<701>  Faenamiento de Subproductos de Terceros'
+            '<702>  Venta de Carne Proveniente de Faenamiento efectuado entre Resp. Insc. - Establecimientos faenadores'
+            '<720>  Mercado Mayorista Ptos Primarios - Operadores Mayoristas a los Comitentes'
+            '<781>  Compra Venta de Granos y Legumbres Secas - No Incluidos en el Registro Fiscal Art. 4º inc. C - Intermediarios.'
+            '<782>  Compra Venta de Granos y Legumbres Secas No Incluidos en el Registro Fiscal Art. 4º inc. C - Exportadores'
+            '<783>  Compra Venta de Granos y Legumbres Secas - Incluidos en el Registro Fiscal Art. 4º inc. A - Intermediarios.'
+            '<784>  Compra Venta de Granos y Legumbres Secas - Incluidos en el Registro Fiscal Art. 4º inc. A - Exportadores'
+            '<785>  Compra Venta de Granos y Legumbres Secas - Incluidos en el Registro Fiscal - Art. 4° inc. A - Operaciones Primarias SUJETAS A DEVOLUCIÓN - Adquirentes.'
+            '<786>  Compra Venta de Granos y Legumbres Secas - Incluidos en el Registro Fiscal - Art. 4° inc. A - Operaciones Primarias SUJETAS A DEVOLUCIÓN - Intermediarios.'
+            '<787>  Compra Venta de Granos y Legumbres Secas - Incluidos en el Registro Fiscal - Art. 4° inc. A - Operaciones Primarias SUJETAS A DEVOLUCIÓN - Exportadores.'
+            '<788>  Compra Venta de Arroz - No Incluidos en el Registro Fiscal Art. 4º inc. D - Adquirentes'
+            '<789>  Compra Venta de Arroz - No Incluidos en el Registro Fiscal Art. 4º inc. D - Intermediarios'
+            '<790>  Compra Venta de Arroz - No Incluidos en el Registro Fiscal Art. 4º inc. D - Exportadores'
+            '<791>  Compra Venta de Arroz - Incluidos en el registro Fiscal Art. 4º inc. B - Adquirentes.'
+            '<792>  Compra Venta de Arroz - Incluidos en el registro Fiscal Art. 4º inc. B - Inermediarios.'
+            '<793>  Compra Venta de Arroz - Incluidos en el registro Fiscal Art. 4º inc. B - Exportadores.'
+            '<794>  Compra Venta de Arroz - Incluidos en el Registro Fiscal - Art. 4° inc. B - Operaciones Primarias SUJETAS A DEVOLUCIÓN - Adquirentes'
+            '<795>  Compra Venta de Arroz - Incluidos en el Registro Fiscal - Art. 4° inc. B - Operaciones Primarias SUJETAS A DEVOLUCIÓN - Intermediarios'
+            '<796>  Compra Venta de Arroz - Incluidos en el Registro Fiscal - Art. 4° inc. B - Operaciones Primarias SUJETAS A DEVOLUCIÓN - Exportadores'
+          )
+          Sorted = True
+          Style = csDropDownList
+          TabOrder = 0
+        end
+        object Label4: TLabel
+          Left = 21
+          Height = 17
+          Top = 2
+          Width = 137
+          Anchors = [akLeft, akBottom]
+          Caption = 'Regimen de percepcion'
+          ParentColor = False
+        end
       end
     end
     object tabIIBBRetenciones: TTabSheet

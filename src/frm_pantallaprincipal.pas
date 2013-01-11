@@ -6,7 +6,7 @@ interface
 
 uses
   Classes, SysUtils, db, FileUtil, Forms, Controls, Graphics, Dialogs, ExtCtrls,
-  ComCtrls, EditBtn, StdCtrls, Buttons, DBGrids;
+  ComCtrls, EditBtn, StdCtrls, Buttons, DBGrids, IniPropStorage;
 
 type
 
@@ -16,6 +16,7 @@ type
     btnObtener: TBitBtn;
     btnExportar: TBitBtn;
     cbClientes: TComboBox;
+    cbRegimenPercepcion: TComboBox;
     DBGrid2: TDBGrid;
     DBGrid3: TDBGrid;
     DBGrid4: TDBGrid;
@@ -27,6 +28,8 @@ type
     Label1: TLabel;
     Label2: TLabel;
     Label3: TLabel;
+    Label4: TLabel;
+    Panel2: TPanel;
     PCOperaciones: TPageControl;
     Panel1: TPanel;
     SD: TSaveDialog;
@@ -40,6 +43,9 @@ type
     procedure FormShow(Sender: TObject);
   private
     procedure Inicializar;
+    procedure GrabarPosCb;
+    procedure LevantarPosCb;
+    function CodigoRegimen (laCadena: string): integer;
   public
     { public declarations }
   end; 
@@ -50,8 +56,11 @@ var
 implementation
 {$R *.lfm}
 uses
-  dateutils
+   dateutils
   ,dmgeneral
+  ,IniFiles
+  ,strutils
+
   ;
 
 { TfrmPantallaPrincipal }
@@ -62,7 +71,11 @@ begin
   begin
     case PCOperaciones.ActivePageIndex of
       0: DM_General.ObtenerRetencionesIVA (edFIni.Date, edFFin.Date); //RetencionesIVA
-      1: DM_General.ObtenerPercepcionesIVA (edFIni.Date, edFFin.Date); //PercepcionesIVA
+      1: if cbRegimenPercepcion.ItemIndex >= 0 then
+         begin
+          DM_General.ObtenerPercepcionesIVA (edFIni.Date, edFFin.Date); //PercepcionesIVA
+          GrabarPosCb;
+         end;
       2: DM_General.ObtenerRetencionesIIBB (edFIni.Date, edFFin.Date); //RetencionesIIBB
       3: DM_General.ObtenerPercepcionesIIBB (edFIni.Date, edFFin.Date); //PercepcionesIIBB
     end;
@@ -70,12 +83,14 @@ begin
 end;
 
 procedure TfrmPantallaPrincipal.btnExportarClick(Sender: TObject);
+var
+  pos: integer;
 begin
   if SD.Execute then
   begin
     case PCOperaciones.ActivePageIndex of
       0: DM_General.ExportarRetencionesIVA (SD.FileName); //RetencionesIVA
-      1: DM_General.ExportarPercepcionesIVA (SD.FileName); //PercepcionesIVA
+      1: DM_General.ExportarPercepcionesIVA (SD.FileName, codigoRegimen(cbRegimenPercepcion.Text)); //PercepcionesIVA
       2: DM_General.ExportarRetencionesIIBB (SD.FileName); //RetencionesIIBB
       3: DM_General.ExportarPercepcionesIIBB (SD.FileName); //PercepcionesIIBB
     end;
@@ -93,7 +108,41 @@ begin
   edFFin.Date:= EndOfTheMonth(Now);
   PCOperaciones.ActivePage:= tabIIBBPercepciones;
   DM_General.cargarCombo (cbClientes);
+  LevantarPosCb;
 end;
+
+procedure TfrmPantallaPrincipal.GrabarPosCb;
+var
+  archivo: TIniFile;
+begin
+  archivo:= TIniFile.Create(ExtractFilePath(ApplicationName)+ elIni);
+  try
+    archivo.WriteInteger(SEC_FRM,CB_CODREGPERCP, cbRegimenPercepcion.ItemIndex);
+  finally
+    archivo.Free;
+  end;
+
+end;
+
+
+procedure TfrmPantallaPrincipal.LevantarPosCb;
+var
+  archivo: TIniFile;
+begin
+  archivo:= TIniFile.Create(ExtractFilePath(ApplicationName)+ elIni);
+  try
+    cbRegimenPercepcion.ItemIndex:= archivo.ReadInteger(SEC_FRM,CB_CODREGPERCP, 0 );
+  finally
+    archivo.Free;
+  end;
+
+end;
+
+function TfrmPantallaPrincipal.CodigoRegimen(laCadena: string): integer;
+begin
+  Result:= StrToIntDef(ExtractWord(1,cbRegimenPercepcion.Text,['<','>']),0);
+end;
+
 
 end.
 
