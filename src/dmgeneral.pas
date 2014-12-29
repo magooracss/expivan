@@ -70,6 +70,15 @@ type
 
 
     function CargarClientes (idcliente: integer):boolean;
+    function CUITCliente (idcliente: integer):string;
+    procedure FormatearArchivoIIBB( var rutaArchivo: String
+                                  ; idCliente: integer
+                                  ; fecha: TDate
+                                  ; regimen: byte
+                                  ; Tipo
+                                  , Lote: string );
+
+
 
     procedure ObtenerPercepcionesIVA (fIni, fFin: TDate);
     procedure ObtenerRetencionesIVA (fIni, fFin: TDate);
@@ -80,6 +89,8 @@ type
     procedure ExportarRetencionesIVA (rutaArchivo: string);
     procedure ExportarPercepcionesIIBB (rutaArchivo: string);
     procedure ExportarRetencionesIIBB (rutaArchivo: string);
+
+    procedure ComprimirArchivoIIBB (rutaArchivo: string);
 
   end;
 
@@ -93,6 +104,7 @@ uses
   ,dateutils
   ,strutils
   ,dialogs
+  ,zipper
   ;
 
 
@@ -129,6 +141,36 @@ begin
   strCliente:= '0000' + intToStr(idCliente);
   strCliente:= copy (strCliente, Length(strCliente)-3,4);
   Result:= VincularDBFs(archivo.ReadString(SEC_APP,APP_RUTA, EmptyStr) + strCliente + '\');
+end;
+
+function TDM_General.CUITCliente(idcliente: integer): string;
+begin
+  with tbClientes do
+  begin
+    Open;
+    if Locate('cCodigo', idCliente, [loCaseInsensitive] ) then
+     Result:= FieldByName('cCUIT').asString
+    else
+      Result:= 'ERROR_EN_CUIT';
+  end;
+end;
+
+procedure TDM_General.FormatearArchivoIIBB(var rutaArchivo: String; idCliente: integer;
+  fecha: TDate; regimen: byte; Tipo, Lote: string);
+var
+  laRuta: String;
+begin
+  LaRuta:= ExtractFilePath(RutaArchivo);
+  laRuta:= laRuta + CUITCliente(idCliente);
+  laRuta:= laRuta + '-' + FormatDateTime('yyyymm',fecha);
+  case regimen of
+   0: laRuta:= laRuta + 'B';
+   1: laRuta:= laRuta + 'M';
+  end;
+  laRuta:= laRuta + '-' + Tipo;
+  laRuta:= laRuta + '-' + Lote;
+  laRuta:= laRuta + '.txt';
+  rutaArchivo:= laRuta;
 end;
 
 
@@ -320,6 +362,7 @@ begin
       linea:= linea + FieldByName('cLetCom').asString;
       linea:= linea + FormatearSucEmision (FieldByName('cNumero').AsString);
       linea:= linea + FormatearImporte (FieldByName('cBruto').asFloat,11);
+      linea:= linea + 'A'; //Modificaron el formato, ahora hay que informar si es Alta o Baja
       EscribirLinea(linea);
       Next;
     end;
@@ -418,10 +461,28 @@ begin
       linea:= linea + Copy ('0000'+ FieldByName('vSucursal').AsString,Length('0000'+ FieldByName('vSucursal').AsString)-3,4);
       linea:= linea + Copy ('00000000'+ FieldByName('vNumero').AsString,Length('00000000'+ FieldByName('vNumero').AsString)-7,8);
       linea:= linea + FormatearImporte (FieldByName('vBruto').asFloat, 10);
+      linea:= linea + 'A'; //Modificaron el formato, ahora hay que informar si es Alta o Baja
+
       EscribirLinea(linea);
       Next;
     end;
     CerrarArchivo;
+  end;
+end;
+
+procedure TDM_General.ComprimirArchivoIIBB(rutaArchivo: string);
+var
+  elZip: TZipper;
+  nombreZip: string;
+begin
+  nombreZip:= ExtractFilePath(rutaArchivo) + ExtractFileNameOnly(rutaArchivo)+ '.zip';
+  elZip := TZipper.Create;
+  try
+    elZip.FileName := nombreZip;
+    elZip.Entries.AddFileEntry(rutaArchivo);
+    elZip.ZipAllFiles;
+  finally
+    elZip.Free;
   end;
 end;
 

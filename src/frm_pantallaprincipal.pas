@@ -29,9 +29,11 @@ type
     Label2: TLabel;
     Label3: TLabel;
     Label4: TLabel;
+    edLote: TLabeledEdit;
     Panel2: TPanel;
     PCOperaciones: TPageControl;
     Panel1: TPanel;
+    rgRegimen: TRadioGroup;
     SD: TSaveDialog;
     st: TStatusBar;
     tabIVARetenciones: TTabSheet;
@@ -85,14 +87,36 @@ end;
 procedure TfrmPantallaPrincipal.btnExportarClick(Sender: TObject);
 var
   pos: integer;
+  RutaArchivo: String;
 begin
   if SD.Execute then
   begin
+    RutaArchivo:= SD.FileName;
     case PCOperaciones.ActivePageIndex of
-      0: DM_General.ExportarRetencionesIVA (SD.FileName); //RetencionesIVA
-      1: DM_General.ExportarPercepcionesIVA (SD.FileName, codigoRegimen(cbRegimenPercepcion.Text)); //PercepcionesIVA
-      2: DM_General.ExportarRetencionesIIBB (SD.FileName); //RetencionesIIBB
-      3: DM_General.ExportarPercepcionesIIBB (SD.FileName); //PercepcionesIIBB
+      0: DM_General.ExportarRetencionesIVA (rutaArchivo); //RetencionesIVA
+      1: DM_General.ExportarPercepcionesIVA (rutaArchivo, codigoRegimen(cbRegimenPercepcion.Text)); //PercepcionesIVA
+      2: begin
+           DM_General.FormatearArchivoIIBB( rutaArchivo
+                                          , Integer(cbClientes.Items.Objects[cbClientes.ItemIndex])
+                                          , edFIni.Date
+                                          , rgRegimen.ItemIndex
+                                          , 'R'
+                                          , TRIM(edLote.Text)
+                                          );
+           DM_General.ExportarRetencionesIIBB (rutaArchivo); //RetencionesIIBB
+       //    DM_General.ComprimirArchivoIIBB(rutaArchivo);
+         end;
+      3: begin
+           DM_General.FormatearArchivoIIBB( rutaArchivo
+                                          , Integer(cbClientes.Items.Objects[cbClientes.ItemIndex])
+                                          , edFIni.Date
+                                          , rgRegimen.ItemIndex
+                                          , 'P'
+                                          , TRIM(edLote.Text)
+                                          );
+           DM_General.ExportarPercepcionesIIBB (rutaArchivo); //PercepcionesIIBB
+        //   DM_General.ComprimirArchivoIIBB(rutaArchivo);
+         end;
     end;
   end;
 end;
