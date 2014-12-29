@@ -104,7 +104,7 @@ begin
                                           , TRIM(edLote.Text)
                                           );
            DM_General.ExportarRetencionesIIBB (rutaArchivo); //RetencionesIIBB
-       //    DM_General.ComprimirArchivoIIBB(rutaArchivo);
+           DM_General.ComprimirArchivoIIBB(rutaArchivo);
          end;
       3: begin
            DM_General.FormatearArchivoIIBB( rutaArchivo
@@ -115,7 +115,7 @@ begin
                                           , TRIM(edLote.Text)
                                           );
            DM_General.ExportarPercepcionesIIBB (rutaArchivo); //PercepcionesIIBB
-        //   DM_General.ComprimirArchivoIIBB(rutaArchivo);
+           DM_General.ComprimirArchivoIIBB(rutaArchivo);
          end;
     end;
   end;

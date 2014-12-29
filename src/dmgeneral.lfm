@@ -196,4 +196,11 @@ object DM_General: TDM_General
       Precision = 2
     end
   end
+  object ArchivoZip: TAbZipper
+    AutoSave = True
+    DOSMode = False
+    StoreOptions = [soStripDrive, soStripPath, soRemoveDots]
+    left = 72
+    top = 152
+  end
 end

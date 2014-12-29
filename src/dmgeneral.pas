@@ -5,7 +5,7 @@ unit dmgeneral;
 interface
 
 uses
-  Classes, SysUtils, dbf, FileUtil, stdCtrls, db;
+  Classes, SysUtils, dbf, FileUtil, AbZipper, stdCtrls, db;
 
 const
   fVENTAS = 'VENTA.DBF';
@@ -23,6 +23,7 @@ type
   { TDM_General }
 
   TDM_General = class(TDataModule)
+    ArchivoZip: TAbZipper;
     tbClientes: TDbf;
     tbCompras: TDbf;
     tbComprasCBRUTO: TFloatField;
@@ -104,7 +105,6 @@ uses
   ,dateutils
   ,strutils
   ,dialogs
-  ,zipper
   ;
 
 
@@ -472,18 +472,13 @@ end;
 
 procedure TDM_General.ComprimirArchivoIIBB(rutaArchivo: string);
 var
-  elZip: TZipper;
   nombreZip: string;
 begin
   nombreZip:= ExtractFilePath(rutaArchivo) + ExtractFileNameOnly(rutaArchivo)+ '.zip';
-  elZip := TZipper.Create;
-  try
-    elZip.FileName := nombreZip;
-    elZip.Entries.AddFileEntry(rutaArchivo);
-    elZip.ZipAllFiles;
-  finally
-    elZip.Free;
-  end;
+  ArchivoZip.FileName:= nombreZip;
+  ArchivoZip.AddFiles(rutaArchivo,0);
+  ArchivoZip.CloseArchive;
+  ArchivoZip.Save;
 end;
 
 end.
